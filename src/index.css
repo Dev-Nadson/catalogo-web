@@ -1,0 +1,181 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/inter";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-background-muted: var(--background-muted);
+  --color-foreground: var(--foreground);
+  --font-sans: "Inter Variable", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-heading: "Inter Variable", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, Menlo, Consolas, monospace;
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/**
+ * Animações. A cor da loja não fica aqui: vem de `configuracoes.cor` e entra como
+ * `--primary` no layout (`lib/cor.ts`), então qualquer cor de marca funciona.
+ */
+@theme {
+  --ease-entrada: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-fade-up: fade-up 0.5s var(--ease-entrada) both;
+  --animate-fade-in: fade-in 0.35s var(--ease-entrada) both;
+  --animate-pop: pop 0.35s var(--ease-entrada);
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes pop {
+    0% {
+      transform: scale(1);
+    }
+    40% {
+      transform: scale(1.25);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+}
+
+/**
+ * Tema claro, neutro, para combinar com qualquer cor de marca. `--primary` é só o padrão
+ * (igual a COR_PADRAO): o layout troca pela cor configurada da loja.
+ */
+:root {
+  --background: #ffffff;
+  --background-muted: #f6f6f4;
+  --foreground: #18181b;
+  --card: #ffffff;
+  --card-foreground: #18181b;
+  --popover: #ffffff;
+  --popover-foreground: #18181b;
+  --primary: #0f766e;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f4f2;
+  --secondary-foreground: #18181b;
+  --muted: #f4f4f2;
+  --muted-foreground: #66666e;
+  --accent: #f0f0ee;
+  --accent-foreground: #18181b;
+  --destructive: #b3261e;
+  --border: #e7e7e4;
+  --input: #dededb;
+  --ring: #0f766e;
+  --success: #1f7a4d;
+  --success-soft: #e3f2ea;
+  --warning: #9a5b00;
+  --warning-soft: #fbf1e1;
+  --danger: #b3261e;
+  --danger-soft: #fbe4e2;
+  --chart-1: #0f766e;
+  --chart-2: #3f3f46;
+  --chart-3: #71717a;
+  --chart-4: #a1a1aa;
+  --chart-5: #d4d4d8;
+  --radius: 0.75rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #18181b;
+  --sidebar-primary: #0f766e;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f4f4f2;
+  --sidebar-accent-foreground: #18181b;
+  --sidebar-border: #e7e7e4;
+  --sidebar-ring: #0f766e;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  html {
+    @apply font-sans;
+    color-scheme: light;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/** Faixas que rolam de lado (chips de categoria, galeria do produto) sem barra visível. */
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
