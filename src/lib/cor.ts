@@ -19,14 +19,20 @@ function contraste(a: number, b: number) {
     return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)
 }
 
+/** Contraste mínimo para texto de botão (semibold): o AA de texto grande. */
+const CONTRASTE_BOTAO = 3
+
 /**
- * Texto por cima da cor da marca: branco ou quase preto, o que tiver mais contraste. A loja
- * escolhe qualquer cor, e um amarelo-claro com texto branco ficaria ilegível.
+ * Texto por cima da cor da marca. Branco sempre que dá para ler (≥ 3:1, como o laranja da
+ * Noronha); senão, o que tiver mais contraste. A loja escolhe qualquer cor, e um
+ * amarelo-claro com texto branco ficaria ilegível.
  */
 export function foregroundFor(hex: string) {
     const fundo = luminancia(hex)
     const branco = 1
     const escuro = luminancia(COR_ESCURA_PADRAO)
+
+    if (contraste(fundo, branco) >= CONTRASTE_BOTAO) return "#ffffff"
 
     return contraste(fundo, branco) >= contraste(fundo, escuro) ? "#ffffff" : COR_ESCURA_PADRAO
 }
