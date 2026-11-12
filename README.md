@@ -55,6 +55,7 @@ O padrão de código é o do workspace (`../CLAUDE.md`). O que muda por causa do
    - Ligado, é mais seguro: o e-mail é verificado. O cliente precisa abrir o link **no mesmo aparelho** para voltar ao checkout com o carrinho.
    - Desligado, o cliente cria a conta e finaliza na hora. A loja deixa de ter garantia de que o e-mail existe; o telefone continua obrigatório.
    - Nos dois casos o carrinho fica guardado.
+   - **Sem SMTP próprio, o Supabase só manda e-mail para os membros do projeto.** Com a confirmação ligada, cliente de verdade não recebe o link e não consegue comprar. Configure um SMTP (Authentication → Emails → SMTP) antes de ligar. O SMTP também é o que faz "recuperar senha" chegar ao cliente.
 
 ### 2. Variáveis de ambiente
 
@@ -92,7 +93,8 @@ npm run dev      # http://localhost:3000
 Em **Painel → Configurações**:
 
 - **Loja:**
-  - nome, frase, logo e cor;
+  - nome, frase e logo;
+  - **cor da marca** (botões e destaques) e **cor escura** (textos, títulos, rodapé e filtro ativo). Se a cor escura não tiver contraste com o branco, o site usa o preto padrão;
   - o **WhatsApp que recebe os pedidos** (sem ele, a loja não aceita pedido);
   - Instagram, endereço, horário e aviso no topo.
 - **Entrega e pagamento:** entrega (taxa e frete grátis a partir de um valor), retirada, pedido mínimo, formas de pagamento e chave Pix.
@@ -102,9 +104,10 @@ Depois, cadastre as **categorias** e os **produtos**: fotos (a primeira é a cap
 
 ### 6. Deploy (Vercel)
 
-1. Importe o repositório na Vercel, framework Next.js. Use a região `gru1` (São Paulo), em Settings → Functions.
+1. Importe o repositório na Vercel, framework Next.js. A região `gru1` (São Paulo, perto do Supabase em sa-east-1) já vem do `vercel.json`.
 2. Cadastre as três variáveis. `APP_URL` é o domínio definitivo.
 3. Atualize as *Redirect URLs* do Supabase com o domínio.
+4. Cada push na branch de produção (`develop`) publica sozinho.
 
 O HTML público é regerado a cada minuto (`revalidate = 60` no layout raiz). Uma mudança de nome, cor ou logo aparece na prévia dos links em até 1 minuto, sem novo deploy.
 
