@@ -24,6 +24,7 @@ const lojaSchema = z.object({
         .max(LIMITS.LOJA_NOME, `No máximo ${LIMITS.LOJA_NOME} caracteres.`),
     slogan: opcional(LIMITS.LOJA_SLOGAN),
     cor: z.string().regex(/^#[0-9a-fA-F]{6}$/, "Use o formato #RRGGBB."),
+    corEscura: z.string().regex(/^#[0-9a-fA-F]{6}$/, "Use o formato #RRGGBB."),
     whatsapp: z
         .string()
         .refine((value) => value === "" || /^\d{10,11}$/.test(onlyDigits(value)), "Número com DDD."),
@@ -70,6 +71,52 @@ function TextField({ control, name, label, placeholder, description, maxLength, 
                     />
                     {description && !fieldState.error && <FieldDescription>{description}</FieldDescription>}
                     <FieldError errors={[fieldState.error]} />
+                </Field>
+            )}
+        />
+    )
+}
+
+type CorFieldProps = {
+    control: Control<LojaFormValues>
+    name: "cor" | "corEscura"
+    label: string
+    description: string
+    disabled: boolean
+}
+
+function CorField({ control, name, label, description, disabled }: CorFieldProps) {
+    return (
+        <Controller
+            name={name}
+            control={control}
+            render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={`loja-${name}`}>{label}</FieldLabel>
+                    <div className="flex items-center gap-3">
+                        <input
+                            type="color"
+                            aria-label={`Escolher: ${label}`}
+                            value={/^#[0-9a-fA-F]{6}$/.test(field.value) ? field.value : "#000000"}
+                            onChange={(event) => field.onChange(event.target.value)}
+                            disabled={disabled}
+                            className="size-11 shrink-0 cursor-pointer rounded-lg border bg-background p-1"
+                        />
+                        <Input
+                            {...field}
+                            id={`loja-${name}`}
+                            size="xl"
+                            maxLength={7}
+                            className="font-mono uppercase"
+                            disabled={disabled}
+                            aria-invalid={fieldState.invalid}
+                        />
+                    </div>
+                    {fieldState.error ? (
+                        <FieldError errors={[fieldState.error]} />
+                    ) : (
+                        <FieldDescription>{description}</FieldDescription>
+                    )}
                 </Field>
             )}
         />
@@ -131,39 +178,20 @@ export function LojaForm({ defaultValues, logoUrl, isPending, onSubmit }: LojaFo
                     )}
                 />
 
-                <Controller
-                    name="cor"
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="loja-cor">Cor da marca</FieldLabel>
-                            <div className="flex items-center gap-3">
-                                <input
-                                    type="color"
-                                    aria-label="Escolher a cor"
-                                    value={/^#[0-9a-fA-F]{6}$/.test(field.value) ? field.value : "#000000"}
-                                    onChange={(event) => field.onChange(event.target.value)}
-                                    disabled={isPending}
-                                    className="size-11 shrink-0 cursor-pointer rounded-lg border bg-background p-1"
-                                />
-                                <Input
-                                    {...field}
-                                    id="loja-cor"
-                                    size="xl"
-                                    maxLength={7}
-                                    className="font-mono uppercase"
-                                    disabled={isPending}
-                                    aria-invalid={fieldState.invalid}
-                                />
-                            </div>
-                            {fieldState.error ? (
-                                <FieldError errors={[fieldState.error]} />
-                            ) : (
-                                <FieldDescription>Botões, destaques e a tela de entrada. O texto se ajusta sozinho.</FieldDescription>
-                            )}
-                        </Field>
-                    )}
-                />
+                <div className="flex flex-col gap-5">
+                    <CorField
+                        {...fieldProps}
+                        name="cor"
+                        label="Cor da marca"
+                        description="Botões e destaques. O texto por cima se ajusta sozinho."
+                    />
+                    <CorField
+                        {...fieldProps}
+                        name="corEscura"
+                        label="Cor escura"
+                        description="Textos, títulos e rodapé. Use uma cor escura: se faltar contraste, o site usa o preto padrão."
+                    />
+                </div>
             </div>
 
             <div>

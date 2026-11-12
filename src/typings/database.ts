@@ -70,6 +70,7 @@ export type Database = {
                     slogan: string | null
                     logo_path: string | null
                     cor: string
+                    cor_escura: string
                     whatsapp: string | null
                     instagram: string | null
                     endereco: string | null
@@ -91,6 +92,7 @@ export type Database = {
                     slogan?: string | null
                     logo_path?: string | null
                     cor?: string
+                    cor_escura?: string
                     whatsapp?: string | null
                     instagram?: string | null
                     endereco?: string | null
@@ -112,6 +114,7 @@ export type Database = {
                     slogan?: string | null
                     logo_path?: string | null
                     cor?: string
+                    cor_escura?: string
                     whatsapp?: string | null
                     instagram?: string | null
                     endereco?: string | null

@@ -1,6 +1,9 @@
-import { COR_PADRAO } from "~/lib/constants"
+import { COR_ESCURA_PADRAO, COR_PADRAO } from "~/lib/constants"
 
 const HEX = /^#[0-9a-fA-F]{6}$/
+
+/** Contraste mínimo (WCAG AA) do texto com o fundo branco. */
+const CONTRASTE_TEXTO = 4.5
 
 function luminancia(hex: string) {
     const [r, g, b] = [1, 3, 5].map((inicio) => {
@@ -23,14 +26,25 @@ function contraste(a: number, b: number) {
 export function foregroundFor(hex: string) {
     const fundo = luminancia(hex)
     const branco = 1
-    const escuro = luminancia("#111827")
+    const escuro = luminancia(COR_ESCURA_PADRAO)
 
-    return contraste(fundo, branco) >= contraste(fundo, escuro) ? "#ffffff" : "#111827"
+    return contraste(fundo, branco) >= contraste(fundo, escuro) ? "#ffffff" : COR_ESCURA_PADRAO
 }
 
-/** Variáveis do tema com a cor da loja, aplicadas no layout do site e do painel. */
-export function brandStyle(cor: string | null | undefined): React.CSSProperties {
+/**
+ * A cor escura vira a cor de todo texto e o fundo do rodapé. Se a loja escolher uma cor clara
+ * demais para ler sobre o branco, fica a padrão: a marca não pode custar a leitura.
+ */
+export function corEscuraLegivel(hex: string | null | undefined) {
+    if (!hex || !HEX.test(hex)) return COR_ESCURA_PADRAO
+
+    return contraste(luminancia(hex), 1) >= CONTRASTE_TEXTO ? hex : COR_ESCURA_PADRAO
+}
+
+/** Variáveis do tema com as cores da loja, aplicadas no `<body>` (vale também para os portais). */
+export function brandStyle(cor: string | null | undefined, corEscura?: string | null): React.CSSProperties {
     const primary = cor && HEX.test(cor) ? cor : COR_PADRAO
+    const escura = corEscuraLegivel(corEscura)
 
     return {
         "--primary": primary,
@@ -39,5 +53,12 @@ export function brandStyle(cor: string | null | undefined): React.CSSProperties 
         "--sidebar-primary": primary,
         "--sidebar-primary-foreground": foregroundFor(primary),
         "--sidebar-ring": primary,
+        "--marca-escura": escura,
+        "--foreground": escura,
+        "--card-foreground": escura,
+        "--popover-foreground": escura,
+        "--secondary-foreground": escura,
+        "--accent-foreground": escura,
+        "--sidebar-foreground": escura,
     } as React.CSSProperties
 }

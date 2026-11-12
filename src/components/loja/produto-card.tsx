@@ -73,7 +73,7 @@ export function ProdutoCard({ produto, priority }: ProdutoCardProps) {
                             <Button
                                 size="icon-lg"
                                 variant="secondary"
-                                className="shrink-0 rounded-full"
+                                className="shrink-0 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground"
                                 aria-label={`Escolher opção de ${produto.nome}`}
                                 render={<Link href={href} />}
                             >

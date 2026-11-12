@@ -25,14 +25,15 @@ function AuthListener() {
 function BrandColorSync() {
     const { data: configuracao } = useConfiguracao()
     const cor = configuracao?.cor
+    const corEscura = configuracao?.cor_escura
 
     useEffect(() => {
         if (!cor) return
 
-        for (const [name, value] of Object.entries(brandStyle(cor))) {
+        for (const [name, value] of Object.entries(brandStyle(cor, corEscura))) {
             document.body.style.setProperty(name, String(value))
         }
-    }, [cor])
+    }, [cor, corEscura])
 
     return null
 }

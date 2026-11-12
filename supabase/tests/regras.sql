@@ -58,6 +58,7 @@ insert into public.produto_variacoes (id, produto_id, rotulo, preco, estoque, at
   ('30000000-0000-0000-0000-000000000005', '20000000-0000-0000-0000-000000000003', '', 10, null, true);
 select pg_temp.espera_erro($$insert into public.produto_variacoes (produto_id, preco, preco_de) values ('20000000-0000-0000-0000-000000000002', 10, 5)$$, 'produto_variacoes_check');
 select pg_temp.espera_erro($$update public.configuracoes set whatsapp = '81999990000' where id = 1$$, 'configuracoes_whatsapp_check');
+select pg_temp.espera_erro($$update public.configuracoes set cor_escura = 'azul' where id = 1$$, 'configuracoes_cor_escura_check');
 
 -- ---------------------------------------------------------------- público
 reset role;

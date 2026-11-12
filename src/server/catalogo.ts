@@ -26,7 +26,7 @@ function createAnonClient() {
 }
 
 const CONFIGURACAO_SELECT =
-    "id, nome, slogan, logo_path, cor, whatsapp, instagram, endereco, horario, aberta, aviso, aceita_entrega, aceita_retirada, taxa_entrega, frete_gratis_acima, pedido_minimo, formas_pagamento, chave_pix, atualizado_em"
+    "id, nome, slogan, logo_path, cor, cor_escura, whatsapp, instagram, endereco, horario, aberta, aviso, aceita_entrega, aceita_retirada, taxa_entrega, frete_gratis_acima, pedido_minimo, formas_pagamento, chave_pix, atualizado_em"
 
 /** Uma leitura por requisição, mesmo chamada pelo layout e pela metadata. */
 export const getConfiguracaoPublica = cache(async (): Promise<Configuracao | null> => {

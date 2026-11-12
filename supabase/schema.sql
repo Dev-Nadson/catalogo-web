@@ -131,6 +131,9 @@ create table public.configuracoes (
   -- Bucket público `catalogo`, pasta `marca/`.
   logo_path text,
   cor text not null default '#0f766e' check (cor ~ '^#[0-9a-fA-F]{6}$'),
+  -- Cor escura da marca: textos, títulos, rodapé e filtro ativo. O site troca pelo padrão se
+  -- ela não tiver contraste com o branco (lib/cor.ts).
+  cor_escura text not null default '#18181b' check (cor_escura ~ '^#[0-9a-fA-F]{6}$'),
   -- Só dígitos, com o 55 do Brasil: é o número do link wa.me.
   whatsapp text check (whatsapp is null or whatsapp ~ '^55\d{10,11}$'),
   instagram text check (instagram is null or instagram ~ '^[A-Za-z0-9._]{1,30}$'),

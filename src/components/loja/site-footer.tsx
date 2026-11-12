@@ -6,6 +6,7 @@ import { useConfiguracao } from "~/hooks/use-configuracao"
 import { APP_NAME } from "~/lib/constants"
 import { buildWhatsAppUrl } from "~/lib/mensagem"
 import { formatPhone } from "~/lib/utils"
+import { BrandMark } from "~/components/brand-mark"
 
 export function SiteFooter() {
     const { data: configuracao } = useConfiguracao()
@@ -27,18 +28,21 @@ export function SiteFooter() {
     ].filter((item): item is { icon: typeof Clock; text: string; href?: string } => Boolean(item))
 
     return (
-        <footer className="border-t bg-background-muted">
-            <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-10 sm:flex-row sm:justify-between">
-                <div className="max-w-sm">
-                    <p className="text-lg font-semibold">{nome}</p>
-                    {configuracao?.slogan && <p className="mt-1 text-sm text-muted-foreground">{configuracao.slogan}</p>}
+        <footer className="bg-marca-escura text-white">
+            <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-10 text-white/90 sm:flex-row sm:justify-between">
+                <div className="flex max-w-sm items-start gap-3">
+                    <BrandMark className="size-12 bg-white" />
+                    <div>
+                        <p className="text-lg font-semibold text-white">{nome}</p>
+                        {configuracao?.slogan && <p className="mt-1 text-sm text-white/70">{configuracao.slogan}</p>}
+                    </div>
                 </div>
 
                 {contatos.length > 0 && (
                     <ul className="flex flex-col gap-2.5 text-sm">
                         {contatos.map((contato) => (
                             <li key={contato.text} className="flex items-start gap-2.5">
-                                <contato.icon className="mt-0.5 size-4 shrink-0 text-primary" />
+                                <contato.icon className="mt-0.5 size-4 shrink-0 text-white/70" />
                                 {contato.href ? (
                                     <a href={contato.href} target="_blank" rel="noopener noreferrer" className="hover:underline">
                                         {contato.text}
@@ -51,7 +55,7 @@ export function SiteFooter() {
                     </ul>
                 )}
             </div>
-            <p className="pb-8 text-center text-xs text-muted-foreground">
+            <p className="border-t border-white/10 py-6 text-center text-xs text-white/60">
                 © {new Date().getFullYear()} {nome}
             </p>
         </footer>

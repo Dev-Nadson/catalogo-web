@@ -121,7 +121,7 @@ export function Vitrine() {
                                         className={cn(
                                             "h-9 shrink-0 rounded-full border px-4 text-sm font-medium whitespace-nowrap transition-colors",
                                             ativo
-                                                ? "border-primary bg-primary text-primary-foreground"
+                                                ? "border-marca-escura bg-marca-escura text-white"
                                                 : "bg-background hover:bg-muted"
                                         )}
                                     >

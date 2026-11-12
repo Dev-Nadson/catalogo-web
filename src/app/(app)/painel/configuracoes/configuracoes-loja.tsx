@@ -20,6 +20,7 @@ function toFormValues(configuracao: Configuracao): LojaFormValues {
         nome: configuracao.nome,
         slogan: configuracao.slogan ?? "",
         cor: configuracao.cor,
+        corEscura: configuracao.cor_escura,
         // O banco guarda com o 55; a tela mostra só DDD + número.
         whatsapp: configuracao.whatsapp ? maskPhoneInput(configuracao.whatsapp.slice(2)) : "",
         instagram: configuracao.instagram ? `@${configuracao.instagram}` : "",
@@ -41,6 +42,7 @@ export function ConfiguracoesLoja() {
                 nome: values.nome.trim(),
                 slogan: toNullable(values.slogan),
                 cor: values.cor.toLowerCase(),
+                corEscura: values.corEscura.toLowerCase(),
                 whatsapp: values.whatsapp ? `55${onlyDigits(values.whatsapp)}` : null,
                 instagram: toNullable(values.instagram.replace(/^@/, "")),
                 endereco: toNullable(values.endereco),

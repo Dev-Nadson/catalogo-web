@@ -165,3 +165,6 @@ export const MIN_PASSWORD_LENGTH = 8
 
 /** Cor da marca enquanto a loja não configura a dela. Igual ao default de `configuracoes.cor`. */
 export const COR_PADRAO = "#0f766e"
+
+/** Cor escura padrão (textos e rodapé). Igual ao default de `configuracoes.cor_escura`. */
+export const COR_ESCURA_PADRAO = "#18181b"

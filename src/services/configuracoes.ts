@@ -8,7 +8,7 @@ import { removeFiles, uploadImage } from "~/services/storage"
 export type Configuracao = Database["public"]["Tables"]["configuracoes"]["Row"]
 
 export const CONFIGURACAO_SELECT =
-    "id, nome, slogan, logo_path, cor, whatsapp, instagram, endereco, horario, aberta, aviso, aceita_entrega, aceita_retirada, taxa_entrega, frete_gratis_acima, pedido_minimo, formas_pagamento, chave_pix, atualizado_em"
+    "id, nome, slogan, logo_path, cor, cor_escura, whatsapp, instagram, endereco, horario, aberta, aviso, aceita_entrega, aceita_retirada, taxa_entrega, frete_gratis_acima, pedido_minimo, formas_pagamento, chave_pix, atualizado_em"
 
 export type GetConfiguracaoOutput = Configuracao
 
@@ -29,6 +29,7 @@ type UpdateLojaInput = {
     nome: string
     slogan: string | null
     cor: string
+    corEscura: string
     whatsapp: string | null
     instagram: string | null
     endereco: string | null
@@ -40,7 +41,7 @@ type UpdateLojaInput = {
 }
 
 /** O logo novo sobe antes; o antigo só sai depois que a linha foi salva. */
-export async function updateLoja({ logo, logoPathAtual, ...input }: UpdateLojaInput): Promise<void> {
+export async function updateLoja({ logo, logoPathAtual, corEscura, ...input }: UpdateLojaInput): Promise<void> {
     const novoPath = logo ? await uploadImage({ folder: PastasCatalogo.MARCA, blob: logo }) : null
 
     try {
@@ -48,6 +49,7 @@ export async function updateLoja({ logo, logoPathAtual, ...input }: UpdateLojaIn
             .from("configuracoes")
             .update({
                 ...input,
+                cor_escura: corEscura,
                 ...(logo !== undefined && { logo_path: novoPath }),
             })
             .eq("id", 1)

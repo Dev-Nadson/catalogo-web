@@ -58,7 +58,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 
     return (
         <html lang="pt-BR">
-            <body style={brandStyle(configuracao?.cor)}>{children}</body>
+            <body style={brandStyle(configuracao?.cor, configuracao?.cor_escura)}>{children}</body>
         </html>
     )
 }
